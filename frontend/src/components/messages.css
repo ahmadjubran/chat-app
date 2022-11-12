@@ -1,0 +1,129 @@
+::-webkit-scrollbar {
+  width: 6px;
+  background-color: #555;
+  /* border-radius: 5px; */
+}
+::-webkit-scrollbar-thumb {
+  background-color: #4caf50;
+  border-radius: 5px;
+}
+
+.messages-container {
+  width: 400px;
+  height: 500px;
+  margin: 0 auto;
+  overflow-y: scroll;
+  border-top: 2px solid #4caf50;
+  border-left: 2px solid #4caf50;
+  border-bottom: none;
+  background-color: #fafafa;
+}
+
+.my-message-box,
+.other-message-box {
+  margin: 0 10px;
+  overflow-wrap: break-word;
+}
+
+.my-message-box {
+  text-align: right;
+}
+
+.other-message-box {
+  text-align: left;
+}
+
+.admin-message {
+  text-align: center;
+  font-weight: bold;
+  color: #4caf50;
+}
+
+.message-username {
+  font-size: 1.2rem;
+  color: #4caf50;
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+.message-text {
+  font-size: 1rem;
+  color: #555;
+  margin: 8px 0;
+}
+
+.message-form {
+  display: flex;
+  width: 402px;
+  margin: 0 auto;
+}
+
+.message-input {
+  flex: 4;
+  padding: 8px;
+  font-size: 16px;
+  border: 2px solid #4caf50;
+  outline: none;
+}
+
+.message-button {
+  flex: 1;
+  padding: 8px;
+  font-size: 16px;
+  border: 2px solid #4caf50;
+  background-color: #4caf50;
+  color: #fafafa;
+  cursor: pointer;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  margin: 0 auto;
+  padding: 10px;
+  border-bottom: none;
+  color: #4caf50;
+}
+
+.logout {
+  width: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.logout-button {
+  padding: 8px;
+  font-size: 16px;
+  border: 2px solid #4caf50;
+  background-color: #4caf50;
+  color: #fafafa;
+  cursor: pointer;
+}
+
+.login {
+  display: flex;
+  width: 250px;
+}
+
+.login-input {
+  flex: 4;
+  padding: 8px;
+  font-size: 16px;
+  border: 2px solid #4caf50;
+  outline: none;
+}
+
+.login-button {
+  flex: 1;
+  padding: 8px;
+  font-size: 16px;
+  border: 2px solid #4caf50;
+  background-color: #4caf50;
+  color: #fafafa;
+  cursor: pointer;
+}

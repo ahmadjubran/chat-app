@@ -1,56 +1,76 @@
 import React, { useEffect, useState } from "react";
 import { io } from "socket.io-client";
-import { v4 as uuidv4 } from "uuid";
 import Form from "./form";
 
+import "./messages.css";
+
 export default function Messages() {
-  const [userId, setUserId] = useState("");
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
+  const username = localStorage.getItem("username");
 
   useEffect(() => {
     const socket = io("http://localhost:3030");
-    const id = uuidv4();
-    setUserId(id);
-    socket.emit("new-user-joined", id);
+    if (username) socket.emit("new-user-joined", username);
 
-    socket.on("user-joined", (payload) => {
-      setUserId(payload);
+    socket.on("user-joined", (username) => {
+      setMessages((messages) => [...messages, { message: `${username} joined the chat`, username: "Admin" }]);
     });
 
     socket.on("receive", (payload) => {
       setMessages((messages) => [...messages, payload]);
     });
 
-    socket.on("left", (payload) => {
-      setMessages((messages) => [...messages, payload]);
+    socket.on("user-left", (username) => {
+      setMessages((messages) => [...messages, { message: `${username} left the chat`, username: "Admin" }]);
     });
 
     return () => {
       socket.disconnect();
     };
-  }, []);
+  }, [username]);
 
   const sendMessage = (e) => {
     e.preventDefault();
     const socket = io("http://localhost:3030");
-    socket.emit("send-message", message);
+    socket.emit("send-message", { message, username: username });
     setMessage("");
   };
 
   return (
     <div>
-      <h3>Your ID: {userId}</h3>
-      <h1>Messages</h1>
-      <Form message={message} setMessage={setMessage} sendMessage={sendMessage} />
-      <div>
-        {messages.map((message, index) => (
-          <div key={index}>
-            <h3>ID: {message.id}</h3>
-            <p>message: {message.message}</p>
+      {username ? (
+        <div>
+          <div
+            className="messages-container"
+            ref={(el) => {
+              if (el) {
+                el.scrollTop = el.scrollHeight;
+              }
+            }}
+          >
+            {messages.map((message, index) => (
+              <div key={index}>
+                {message.username === "Admin" ? (
+                  <div className="admin-message">
+                    <p>{message.message}</p>
+                  </div>
+                ) : (
+                  <div className={message.username === username ? "my-message-box" : "other-message-box"}>
+                    <div>
+                      {messages[index - 1] && messages[index - 1].username === message.username ? null : (
+                        <p className="message-username">{message.username}</p>
+                      )}
+                      <p className="message-text">{message.message}</p>
+                    </div>
+                  </div>
+                )}
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
+          <Form message={message} setMessage={setMessage} sendMessage={sendMessage} />
+        </div>
+      ) : null}
     </div>
   );
 }
